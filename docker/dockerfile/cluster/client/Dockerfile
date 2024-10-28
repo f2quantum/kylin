@@ -64,6 +64,8 @@ ENV KAFKA_VERSION ${KAFKA_VERSION}
 ENV SPARK_VERSION ${SPARK_VERSION}
 ENV SPARK_HADOOP_VERSION ${SPARK_HADOOP_VERSION}
 
+# set up mirror
+RUN rm /etc/yum.repos.d/*.repo && curl -o /etc/yum.repos.d/Centos7-ustc.repo https://mirrors.wlnmp.com/centos/Centos7-ustc-x86_64.repo
 ## install tools
 RUN yum -y install lsof wget tar git unzip wget curl net-tools procps perl sed nc which
 # install kerberos
@@ -130,7 +132,7 @@ RUN curl -fSL "${SPARK_URL}" -o /tmp/spark.tar.gz \
     && rm -f /tmp/spark.tar.gz \
     && rm -f $SPARK_HOME/conf/hive-site.xml \
     && ln -s $HIVE_HOME/conf/hive-site.xml $SPARK_HOME/conf/hive-site.xml \
-    && cp $HIVE_HOME/conf/hive-site.xml $SPARK_HOME/conf \
+    # && cp $HIVE_HOME/conf/hive-site.xml $SPARK_HOME/conf \
     && cp $SPARK_HOME/yarn/*.jar $HADOOP_HOME/share/hadoop/yarn/lib
 
 #COPY spark-$SPARK_VERSION-bin-hadoop${SPARK_HADOOP_VERSION}.tgz /tmp/spark.tar.gz

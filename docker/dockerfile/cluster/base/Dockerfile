@@ -30,6 +30,8 @@ ENV HADOOP_VERSION ${HADOOP_VERSION}
 ENV INSTALL_FROM ${INSTALL_FROM}
 ENV HADOOP_URL ${HADOOP_URL}
 
+# set up mirror
+RUN rm /etc/yum.repos.d/*.repo && curl -o /etc/yum.repos.d/Centos7-ustc.repo https://mirrors.wlnmp.com/centos/Centos7-ustc-x86_64.repo、
 # install tools
 RUN yum -y install lsof wget tar git unzip wget curl net-tools procps perl sed nc which
 
@@ -47,7 +49,7 @@ RUN set -x \
     && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
     && rm /tmp/hadoop.tar.gz* \
     && mkdir -p /etc/hadoop/conf \
-    && cp -r /opt/hadoop-$HADOOP_VERSION/etc/hadoop/* /etc/hadoop/conf
+    && cp -r /opt/hadoop-$HADOOP_VERSION/etc/hadoop/* /etc/hadoop/conf \
     && if [ -e "/etc/hadoop/conf/mapred-site.xml.template" ]; then cp /etc/hadoop/conf/mapred-site.xml.template /etc/hadoop/conf/mapred-site.xml ;fi \
     && mkdir -p /opt/hadoop-$HADOOP_VERSION/logs \
     && mkdir /hadoop-data

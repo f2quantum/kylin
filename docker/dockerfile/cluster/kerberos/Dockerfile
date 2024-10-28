@@ -20,6 +20,8 @@ MAINTAINER kylin
 
 USER root
 
+# set up mirror
+RUN rm /etc/yum.repos.d/*.repo && curl -o /etc/yum.repos.d/Centos7-ustc.repo https://mirrors.wlnmp.com/centos/Centos7-ustc-x86_64.repo
 # install tools
 RUN yum -y install lsof wget tar git unzip wget curl net-tools procps perl sed nc which
 # install kerberos
